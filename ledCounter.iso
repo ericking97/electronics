@@ -1,0 +1,27 @@
+byte counter;
+
+void setup() {
+  counter = 0;
+  for (int i = 2; i < 10; i++) {  
+    pinMode(i, OUTPUT);
+  }
+  Serial.begin(9600);
+}
+
+void loop() {
+  delay(1000);
+  if (counter < 16) {
+    counter++;
+  } else {
+    counter = 0;  
+  }
+  sendBCD(counter);
+  Serial.write(counter);
+}
+
+void sendBCD(byte n)  //n receives BCD value (0x00 -  0x09) from  calling routine
+{
+  for (int i=0; i < 8; i++) {
+    digitalWrite((i+2), bitRead(n, i));
+  }
+}
